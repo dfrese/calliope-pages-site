@@ -33,7 +33,7 @@ The view of your application defines the user interface for a given model, consi
 The view can be implemented with various libraries and the `calliope-core` library actually does not include an implementation. We recommend Orpheus, which was developed alongside Calliope, that allows to define the user interface as a purely function virtual dom. Using Orpheus, you will usually define a view function like this:
 
 ```clj
-(define my-view [model] (html/input {:type "text" :onInput :set-text :value model})
+(define my-view [model] (html/input {:type "text" :value model})
 ```
 
 ### Your Application can change the World
