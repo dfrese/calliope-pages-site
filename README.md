@@ -1,37 +1,48 @@
-## Welcome to GitHub Pages
+# Welcome to Calliope
 
-You can use the [editor on GitHub](https://github.com/dfrese/calliope-pages-site/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+Calliope is a purely functional web application framework, using Clojure and ClojureScript.
+It's highly inspired by [Elm](http://elm-lang.org/).
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## The Programming Model
 
-### Markdown
+Single-page web applications are not general purpose applications. The browser defines, that a web application is started once (e.g. when the page loads), interacts with the user via DOM, and never ends in the sense that it would complete its work. Also, web application mostly do any work only upon request of the user, e.g. a 'click' or other input. Additionally, most applications want to react to asynchronous responses from server communication, unsolicited push notifications, or timed animations.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+The programming model calliope enforces, embraces that concept, by letting the user implement a few pure functions based on a single application state, the model, which changes over time.
 
-```markdown
-Syntax highlighted code block
+### Your Application Model
 
-# Header 1
-## Header 2
-### Header 3
+Your application model can be any date structure that suits your needs. The built-in clojure data structures are highly recommended as they are immutable and persistent. Usually, you will define an initial model for your application in your source code:
 
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+```
+(define my-initial-model "foobar")
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+### Doing your application work
 
-### Jekyll Themes
+In the Calliope application model, your application can only make progress by changing your model in response to messages. A message can be any value except `nil`. Usually, you will define a pure update function like this:
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/dfrese/calliope-pages-site/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+```
+(define my-update [model message]
+  ...)
+```
 
-### Support or Contact
+### Your Application View
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+The view of your application defines the user interface for a given model, consisting of visual dom elements and the interactions a user can make via them.
+
+The view can be implemented with various libraries and the `calliope-core` library actually does not include an implementation. We recommend Orpheus, which was developed alongside Calliope, that allows to define the user interface as a purely function virtual dom. Using Orpheus, you will usually define a view function like this:
+
+```
+(define my-view [model] (html/input {:type "text" :onInput :set-text :value model})
+```
+
+### Your Application can change the World
+
+TODO ...returning commands from update
+
+### The World can change your Application
+
+TODO ...subscribing to unsolicited messages
+
+
+
