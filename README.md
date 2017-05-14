@@ -60,7 +60,7 @@ Besides returning an updated model, your `update` function can also return one o
     :set-text (second message)
     :store-text (-> model
                     (add-cmd (send-text-to-server model)))
-    (assert false)))
+    (assert false)))
 ```
 
 The `calliope-basics` library already contains a lot of useful commands, but the underlying protocol can be extended for various other forms of side-effectful actions too.
@@ -73,7 +73,7 @@ You will usually define your subscriptions in a separate pure function, which ma
 
 ```clj
 (defn my-subscriptions [model]
-  [sub-1 sub-2])
+  [sub-1 sub-2])
 ```
 
 The application engine will take care of all side-effectful registrations and de-registrations needed, when your functions returns something new.
