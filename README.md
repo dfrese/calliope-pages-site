@@ -44,7 +44,7 @@ The view can be implemented with various libraries and the `calliope-core` libra
 
 In order to use Orpheus, you need to include the `calliope-orpheus` library, and define an *orpheus canvas* for your application:
 
-```
+```clj
 (def my-canvas (orpheus/canvas my-view))
 ```
 
@@ -54,7 +54,7 @@ Hardly any applications lives in its own, closed world. You will usually want to
 
 Besides returning an updated model, your `update` function can also return one or more commands. You will usually add commands with the `model->` macro, which works a bit like clojure's threading macro:
 
-```
+```clj
 (defn my-update [model message]
   (case (first message)
     :set-text (second message)
@@ -71,7 +71,7 @@ The last part of the Calliope application model are *subscriptions*. Your applic
 
 You will usually define your subscriptions in a separate pure function, which may return a different set of subscriptions depending on your current model:
 
-```
+```clj
 (defn my-subscriptions [model]
   [sub-1 sub-2])
 ```
@@ -79,3 +79,19 @@ You will usually define your subscriptions in a separate pure function, which ma
 The application engine will take care of all side-effectful registrations and de-registrations needed when your functions returns something new.
 
 The `calliope-basics` library already contains a lot of useful subscriptions, but the underlying protocol can also be extended for various other forms of sources.
+
+### Bringing it all together
+
+Finally, you can define your application like this:
+
+```clj
+(def my-app (app my-canvas my-initial-model my-update my-subscriptions))
+```
+
+And you can mount and run it a browser, resp. a DOM node:
+
+```clj
+(start! (.getElementById js/document "main") my-app)
+```
+
+That's it.
